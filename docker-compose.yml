@@ -1,0 +1,62 @@
+#  Запускает два контейнера - MySQL и MongoDB
+version: '3.9' 
+
+services:
+#  Контейнер MySQL
+    mysql:
+        image: mysql:8  
+        container_name: mysql_container
+        environment:  
+            MYSQL_USER: user
+            MYSQL_PASSWORD: password
+            MYSQL_DATABASE: shop
+            MYSQL_ROOT_PASSWORD: root_password
+        ports:
+            - "3307:3306"
+        volumes:
+            - mysql_data:/var/lib/mysql
+        deploy:
+            resources:
+                limits:
+                    cpus: '0.50'
+                    memory: 512M
+                reservations:
+                    cpus: '0.25'
+                    memory: 256M
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "user", "--password=password"]
+            interval: 30s
+            timeout: 10s
+            retries: 5
+        restart: unless-stopped
+        tty: true
+        stdin_open: true
+
+#  Контейнер MongoDB
+    mongodb:
+        image: mongo:latest
+        container_name: mongodb
+        restart: always
+        ports:
+            - "27017:27017"
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: secretpassword
+        volumes:
+            - mongodb_data:/data/db
+
+#  Контейнера mongo-express (веб-интерфейс для визуального просмотра MongoDB)
+    mongo-express:
+        image: mongo-express:latest
+        container_name: mongo-express
+        restart: always
+        ports:
+            - "8081:8081"
+        environment:
+            ME_CONFIG_MONGODB_ADMINUSERNAME: root
+            ME_CONFIG_MONGODB_ADMINPASSWORD: secretpassword
+            ME_CONFIG_MONGODB_SERVER: mongodb
+
+volumes:
+  mysql_data:
+  mongodb_data:
