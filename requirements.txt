@@ -3,3 +3,9 @@ uvicorn[standart]
 aiomysql
 motor
 pydantic
+sqlalchemy
+pymysql
+bson
+models
+typing
+email-validator
