@@ -9,3 +9,4 @@ bson
 models
 typing
 email-validator
+asyncio

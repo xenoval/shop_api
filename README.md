@@ -14,11 +14,17 @@ Shop API - программный интерфейс для взаимодейс
 
 В папке routers собраны эндпоинты каталога(MongoDB), пользователей(MySQL), заказов(MySQL + MongoDB).
 
+В папке models лежат sqlalchemy модели, описывающие таблицы БД MySQL.
+
+В папке chemas лежат схемы pydantic - как структуры данных.
+
 ## Технологии
 - FastAPI
 - MongoDB (Motor)
 - MySQL (aiomysql)
 - Docker Compose
+- SQLAlchemy
+- Pydantic
 
 ## Запуск
 
@@ -35,60 +41,39 @@ Shop API - программный интерфейс для взаимодейс
         <th>Что делает</th>
     </tr>
     <tr>
-        <td>GET</td>
-        <td>/products</td>
-        <td>Ничего не принимает, возвращает список товаров в каталоге</td>
-    </tr>
-    <tr>
         <td>POST</td>
         <td>/products</td>
-        <td>Принимает dict с описанием товара, что бы внести его в базу products
-        Например, 
-        {
-        "name": "iPhone 19",
-        "category": "electronics",
-        "price": 999.99,
-        "specs": {
-            "ram": "6GB",
-            "storage": "128GB"
-            }
-        }
+        <td>Принимает словарь по схеме ProductCreate с описанием товара, что бы внести его в базу products
+        
         Возвращает строку со значением id, который присваивается товару.
         </td>
     </tr>
     <tr>
         <td>GET</td>
         <td>/products/{product_id}</td>
-        <td>Принимает id товара и возвращает его в формате dict</td>
+        <td>Принимает int значения limit и offcet, и возвращает список продуктов из limit значений, начиная с offcet продукта</td>
+    </tr>
+    <tr>
+        <td>GET</td>
+        <td>/products/{product_id}</td>
+        <td>Принимает id товара и возвращает его в формате Product</td>
     </tr>
     <tr>
         <td>POST</td>
         <td>/users</td>
-        <td>Принимает на вход dict с информацией о пользователе (email, name)
-        Например, 
-        {
-        "email": "murmyu@gmail.com",
-        "name": "mur"
-        }
+        <td>Принимает на вход dict сщ схемой CreateUser с информацией о пользователе (email, name) и добавляет его в базу данных
         </td>
     </tr>
     <tr>
         <td>GET</td>
         <td>/user/{user_id}</td>
         <td>Принимает id пользователя и выводит информацию о нем
-        Например, 1</td>
+        </td>
     </tr>
     <tr>
         <td>POST</td>
         <td>/orders</td>
-        <td>Принимает на вход dict, создает заказ в таблице order_items, выводит id заказа и его стоимость
-        Например, 
-        {
-        "user_id": 1,
-        "items": [
-        {"product_id": "здесь_скопированный_id", "quantity": 2}
-        ]
-        }
+        <td>Принимает на вход запрос в виде схемы OrdersCreate, создает заказ в таблице order_items, выводит id заказа и его конечную стоимость
         </td>
     </tr>
     <tr>
