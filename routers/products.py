@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from bson import ObjectId
 from fastapi import HTTPException
-from schemas.schemas_products import Product, ProductCreate, PagedProducts
+from schemas.products import Product, CreateProduct, PagedProducts
 
 
 from db.mongo import products_collection
@@ -9,7 +9,7 @@ from db.mongo import products_collection
 router = APIRouter()
 
 @router.post("/products", response_model=Product)
-async def create_product(product: ProductCreate):
+async def create_product(product: CreateProduct):
     res = await products_collection.insert_one(product.model_dump())
     return Product(
         _id=str(res.inserted_id),
@@ -18,13 +18,13 @@ async def create_product(product: ProductCreate):
 
 
 @router.get("/products", response_model=PagedProducts)
-async def get_products(limit: int = 50, offcet: int = 0):
+async def get_products(limit: int = 50, offset: int = 0):
     total = await products_collection.count_documents({})
-    products = await products_collection.find().skip(offcet * limit).limit(limit).to_list()
+    products = await products_collection.find().skip(offset * limit).limit(limit).to_list()
     return PagedProducts(
         items=[Product.model_validate(product) for product  in products],
         limit=limit,
-        offcet=offcet,
+        offset=offset,
         total=total,
     )
 

@@ -3,7 +3,7 @@ from typing import Optional
 from datetime import datetime
 
 
-class UserCreate(BaseModel):
+class CreateUser(BaseModel):
     email: EmailStr
     name: str
 
@@ -12,3 +12,5 @@ class UserResponse(BaseModel):
     email: EmailStr
     name: str
     created_at: Optional[datetime] = None
+
+    model_config = {"from_attributes": True}

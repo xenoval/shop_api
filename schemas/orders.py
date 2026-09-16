@@ -1,13 +1,13 @@
 from pydantic import BaseModel
 
 
-class OrderCreate(BaseModel):
+class CreateOrder(BaseModel):
     product_id: str
     quantity: int
 
-class OrdersCreate(BaseModel):
+class CreateOrders(BaseModel):
     user_id: int
-    items: list[OrderCreate]
+    items: list[CreateOrder]
 
 class OrdersResponse(BaseModel):
     order_id: int

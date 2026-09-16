@@ -1,43 +1,36 @@
 from fastapi import APIRouter, Depends, HTTPException
-from db.mysql import get_connection
-from schemas.schemas_users import UserCreate, UserResponse
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from db.postgres import get_connection
 from models.users import User
-from sqlalchemy.orm import Session
+from schemas.users import CreateUser, UserResponse
 
 
 router = APIRouter()
 
 @router.post("/users", response_model=UserResponse)
-def create_user(user: UserCreate, db: Session = Depends(get_connection)):
-    users = User(
+async def create_user(user: CreateUser, db: AsyncSession = Depends(get_connection)):
+    new_user = User(
         email=user.email,
         name=user.name
     )
 
-    db.add(users)
-    db.commit()  
-    db.refresh(users)
+    db.add(new_user)
+    await db.commit()  
+    await db.refresh(new_user)
     
-    return UserResponse(
-        id=users.id,
-        email=users.email,
-        name=users.name,
-        created_at=users.created_at
-    )
+    return new_user
 
 @router.get("/users/{user_id}", response_model=UserResponse)
-def get_user(user_id: int, db: Session = Depends(get_connection)):
-    user = db.query(User).filter(User.id == user_id).first()
-    
+async def get_user(
+    user_id: int,
+    db: AsyncSession = Depends(get_connection),
+):
+    result = await db.execute(select(User).where(User.id == user_id))
+    user = result.scalar_one_or_none()
+
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
-    
-    return UserResponse(
-        id=user.id,
-        email=user.email,
-        name=user.name,
-        created_at=user.created_at
-    )
-    
 
-
+    return user

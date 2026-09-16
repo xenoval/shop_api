@@ -1,19 +1,19 @@
 from fastapi import APIRouter, Depends
 from db.mongo import products_collection
-from db.mysql import get_connection
+from db.postgres import get_connection
 from bson import ObjectId 
 from sqlalchemy.orm import Session
 from sqlalchemy import text
 from models.order_items import OrderItems
 from models.orders import Orders
-from schemas.schemas_orders import OrdersCreate, OrdersResponse
+from schemas.orders import CreateOrders, OrdersResponse
 import asyncio
 
 
 router = APIRouter()
 
 @router.post("/orders", response_model=OrdersResponse)
-async def create_order(orders: OrdersCreate, db: Session = Depends(get_connection)):
+async def create_order(orders: CreateOrders, db: Session = Depends(get_connection)):
     total = 0
     products_data = []
 

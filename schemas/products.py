@@ -20,11 +20,11 @@ class PagedProducts(BaseModel):
     # схема списка продуктов с пагинацией
     items: list[Product]
     limit: int 
-    offcet: int
+    offset: int
     total: int
 
 
-class ProductCreate(BaseModel):
+class CreateProduct(BaseModel):
     # схема создания продукта
     name: str
     description: str
