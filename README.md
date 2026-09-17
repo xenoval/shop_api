@@ -83,7 +83,7 @@ postgresql+asyncpg://user:password@localhost:5433/shop
 
 ### PostgreSQL для всех сущностей
 
-Изначально проект использовал polyglot persistence: MySQL для пользователей и заказов, MongoDB для товаров. В процессе рефакторинга я перенёс всё в PostgreSQL, потому что:
+Изначально проект использовал polyglot persistence: MySQL для пользователей и заказов, MongoDB для товаров. В процессе рефакторинга я перенесла всё в PostgreSQL, потому что:
 
 - Товары имеют предсказуемую структуру (`name`, `description`, `price`), которая хорошо ложится в реляционную модель.
 - Транзакции при создании заказа проще, когда все данные в одной БД.
@@ -101,11 +101,9 @@ MongoDB была бы оправдана, если бы у товаров был
 
 ## Что было сложного
 
-1. **Перенос хранилища.** Изначально товары хранились в MongoDB. Переход на PostgreSQL потребовал переписать модели, схемы, роутеры и запросы. Самое сложное — согласовать типы: `ObjectId` → `int`, `str` → `UUID`, а также убрать остатки Mongo (`alias='_id'`, `bson.ObjectId`) из схем.
+1. **Перенос хранилища.** Изначально товары хранились в MongoDB. Переход на PostgreSQL потребовал переписать модели, схемы, роутеры и запросы.
 
-2. **Смешение sync и async.** SQLAlchemy имеет sync и async API. Сначала роутеры были sync (`def`, `Session`), а движок — async (`AsyncSession`). Это давало странные ошибки (`id=None` после `commit`, `coroutine was never awaited`). Пришлось привести всё к async.
-
-3. **`relationship` без `ForeignKey`.** SQLAlchemy не может построить связь между таблицами, если нет внешнего ключа. Ошибка `NoForeignKeysError` вылезла при первом `POST /products`, потому что SQLAlchemy лениво строит маппинги.
+2. **Смешение sync и async.** SQLAlchemy имеет sync и async API. Сначала роутеры были sync (`def`, `Session`), а движок — async (`AsyncSession`).
 
 ## Планы
 
@@ -114,7 +112,6 @@ MongoDB была бы оправдана, если бы у товаров был
 - [ ] JWT-авторизация
 - [ ] Тесты (pytest)
 - [ ] Alembic-миграции
-- [ ] CI на GitHub Actions
 
 ## Автор
 
