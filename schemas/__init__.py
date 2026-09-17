@@ -1,4 +1,4 @@
-from schemas.products import Product, CreateProduct, PagedProducts
+from schemas.products import ProductResponse, CreateProduct, PagedProducts
 
 
-__all__ = ["PagedProducts", "CreateProduct", "Product"]
+__all__ = ["PagedProducts", "CreateProduct", "ProductResponse"]

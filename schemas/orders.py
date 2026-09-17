@@ -1,9 +1,9 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator, Field
 
 
 class CreateOrder(BaseModel):
-    product_id: str
-    quantity: int
+    product_id: int = Field(..., gt=0)
+    quantity: int = Field(..., gt=0)
 
 class CreateOrders(BaseModel):
     user_id: int

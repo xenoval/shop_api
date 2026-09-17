@@ -1,6 +1,8 @@
 __pycache__/
 *.pyc
 .env
+venv/
+env/
 .idea/
 .vscode/
 *.log
@@ -9,5 +11,3 @@ __pycache__/
 *.sqlite3
 .pytest_cache/
 .coverage
-venv/
-env/
