@@ -3,15 +3,15 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from db.postgres import get_connection
-from models.users import User
-from schemas.users import CreateUser, UserResponse
+from models.users import Users
+from schemas.users import UserCreate, UserResponse
 
 
 router = APIRouter()
 
 @router.post("/users", response_model=UserResponse)
-async def create_user(user: CreateUser, db: AsyncSession = Depends(get_connection)):
-    new_user = User(
+async def create_user(user: UserCreate, db: AsyncSession = Depends(get_connection)):
+    new_user = Users(
         email=user.email,
         name=user.name
     )
@@ -27,7 +27,7 @@ async def get_user(
     user_id: int,
     db: AsyncSession = Depends(get_connection),
 ):
-    result = await db.execute(select(User).where(User.id == user_id))
+    result = await db.execute(select(Users).where(Users.id == user_id))
     user = result.scalar_one_or_none()
 
     if not user:

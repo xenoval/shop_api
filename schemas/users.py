@@ -1,11 +1,11 @@
-from pydantic import BaseModel, EmailStr, field_validator
 from typing import Optional
 from datetime import datetime
+from pydantic import BaseModel, EmailStr, field_validator, ConfigDict, Field
 
 
-class CreateUser(BaseModel):
+class UserCreate(BaseModel):
     email: EmailStr
-    name: str
+    name: str = Field(..., min_length=1)
 
     @field_validator("name")
     @classmethod
@@ -15,6 +15,8 @@ class CreateUser(BaseModel):
         return value
 
 class UserResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     email: EmailStr
     name: str

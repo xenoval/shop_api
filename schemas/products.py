@@ -1,9 +1,11 @@
 from decimal import Decimal
 from datetime import datetime, timezone
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, ConfigDict
 
 
 class ProductResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     name: str
     description: str
@@ -19,10 +21,10 @@ class PagedProducts(BaseModel):
     offset: int
     total: int
 
-class CreateProduct(BaseModel):
+class ProductCreate(BaseModel):
     # схема создания продукта
-    name: str
-    description: str
+    name: str = Field(..., min_length=1)
+    description: str = Field(..., min_length=1)
     price: Decimal = Field(..., gt=0, max_digits=10, decimal_places=2)
 
     @field_validator("name")

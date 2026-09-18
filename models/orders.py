@@ -12,5 +12,5 @@ class Orders(Base):
     total = Column(DECIMAL(10,2), nullable=False)
     created_at = Column(DateTime, server_default=func.now())
 
-    user = relationship("User", back_populates="orders")
+    user = relationship("Users", back_populates="orders")
     order_items = relationship("OrderItems", back_populates="orders", cascade="all, delete-orphan")

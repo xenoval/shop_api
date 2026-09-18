@@ -3,21 +3,21 @@ from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from db.postgres import get_connection
-from models.products import Product
+from models.products import Products
 from models.order_items import OrderItems
 from models.orders import Orders
-from schemas.orders import CreateOrders, OrdersResponse
+from schemas.orders import OrdersCreate, OrdersResponse
 
 
 router = APIRouter()
 
 @router.post("/orders", response_model=OrdersResponse)
-async def create_order(orders: CreateOrders, db: AsyncSession = Depends(get_connection)):
+async def create_order(orders: OrdersCreate, db: AsyncSession = Depends(get_connection)):
     total = 0
     products_data = []
 
     for item in orders.items:
-        result = await db.execute(select(Product).where(Product.id == item.product_id))
+        result = await db.execute(select(Products).where(Products.id == item.product_id))
         product = result.scalar_one_or_none()
 
         if product is None:
