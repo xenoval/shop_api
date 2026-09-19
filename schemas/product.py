@@ -1,3 +1,4 @@
+from uuid import UUID
 from decimal import Decimal
 from datetime import datetime, timezone
 from pydantic import BaseModel, Field, field_validator, ConfigDict
@@ -6,7 +7,7 @@ from pydantic import BaseModel, Field, field_validator, ConfigDict
 class ProductResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
-    id: int
+    id: UUID
     name: str
     description: str
     price: Decimal

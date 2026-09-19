@@ -1,6 +1,6 @@
-from schemas.products import ProductCreate, ProductResponse, PagedProducts
-from schemas.users import UserCreate, UserResponse
-from schemas.orders import OrderCreate, OrdersResponse, OrdersCreate
+from schemas.product import ProductCreate, ProductResponse, PagedProducts
+from schemas.user import UserCreate, UserResponse
+from schemas.order import OrderCreate, OrdersResponse, OrdersCreate
 
 __all__ = [
     # products

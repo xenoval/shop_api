@@ -1,8 +1,8 @@
 from models.base import Base
-from models.users import Users
-from models.orders import Orders
-from models.order_items import OrderItems
-from models.products import Products
+from models.user import UserModel
+from models.order import OrderModel
+from models.order_item import OrderItemModel
+from models.product import ProductModel
 
 
-__all__ = ["Base", "Users", "Orders", "OrderItems", "Products"]
+__all__ = ["Base", "UserModel", "OrderModel", "OrderItemModel", "ProductModel"]

@@ -1,3 +1,4 @@
+from uuid import UUID
 from typing import Optional
 from datetime import datetime
 from pydantic import BaseModel, EmailStr, field_validator, ConfigDict, Field
@@ -17,7 +18,7 @@ class UserCreate(BaseModel):
 class UserResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
-    id: int
+    id: UUID
     email: EmailStr
     name: str
     created_at: Optional[datetime] = None
