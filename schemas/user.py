@@ -7,6 +7,7 @@ from pydantic import BaseModel, EmailStr, field_validator, ConfigDict, Field
 class UserCreate(BaseModel):
     email: EmailStr
     name: str = Field(..., min_length=1)
+    password: str = Field(..., min_length=8)
 
     @field_validator("name")
     @classmethod
@@ -22,5 +23,3 @@ class UserResponse(BaseModel):
     email: EmailStr
     name: str
     created_at: Optional[datetime] = None
-
-    model_config = {"from_attributes": True}
