@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from routers import order, product, user
+from routers import order, product, user, auth
 from db.postgres import create_tables
 from contextlib import asynccontextmanager
 
@@ -9,6 +9,7 @@ async def lifespan(app: FastAPI):    # Специальный контекстн
     yield    # Код после yield - после остановки приложения
 
 app = FastAPI(lifespan=lifespan)
+app.include_router(auth.router)
 app.include_router(product.router)  
 app.include_router(user.router)
 app.include_router(order.router)

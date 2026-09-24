@@ -3,7 +3,7 @@ from fastapi import HTTPException, status
 from repositories.user import UserRepository
 from schemas.user import UserCreate
 from models.user import UserModel
-from auth.security import get_password_hash
+from auth.security import get_password_hash, verify_password
 
 class UserService:
     def __init__(self, user_repo: UserRepository):
@@ -28,4 +28,12 @@ class UserService:
                 detail="Пользователь не найден"
             )
             
+        return user
+
+    async def authenticate(self, email: str, password: str) -> UserModel | None:
+        user = await self.user_repo.get_by_email(email)
+        if not user:
+            return None
+        if not verify_password(password, user.hashed_password):
+            return None
         return user
