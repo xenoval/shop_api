@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     TEST_DATABASE_URL: str = "postgresql+asyncpg://user:password@localhost:5434/shop_test"
+    ALEMBIC_DATABASE_URL: str = "postgresql+psycopg2://user:password@localhost:5433/shop"
 
 
 settings = Settings()
