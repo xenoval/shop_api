@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 from routers import order, product, user, auth
-from db.postgres import create_tables
 from contextlib import asynccontextmanager
 
 @asynccontextmanager   

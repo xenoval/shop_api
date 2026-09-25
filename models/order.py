@@ -1,8 +1,7 @@
 from datetime import datetime
-from decimal import Decimal
 from typing import List
 from uuid import UUID, uuid4
-from sqlalchemy import ForeignKey, String, func, Numeric
+from sqlalchemy import ForeignKey, String, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from models.base import Base

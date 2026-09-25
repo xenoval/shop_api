@@ -1,5 +1,5 @@
 import bcrypt
-from jose import jwt, JWTError
+from jose import jwt
 from datetime import datetime, timedelta, timezone
 
 from config import settings
