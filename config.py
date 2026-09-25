@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     SECRET_KEY: str = "CHANGE_ME_IN_ENV"
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
+    TEST_DATABASE_URL: str = "postgresql+asyncpg://user:password@localhost:5434/shop_test"
 
 
 settings = Settings()

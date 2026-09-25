@@ -21,7 +21,7 @@ async def login(
     user = await user_service.authenticate(form.username, form.password)
     if not user:
         raise HTTPException(
-            status_cosw=status.HTTP_401_UNAUTHORIZED,
+            status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Неверный email или пароль",
             headers={"WWW-Authenticate": "Brearer"}
         )
