@@ -5,7 +5,7 @@ async def test_create_product(client):
         "price": "239990.00",
     })
 
-    assert response.status_code == 200
+    assert response.status_code == 201
     data = response.json()
     assert data["name"] == "IPhone 18 pro"
     assert data["description"] == "Цвет: черный, Объем памяти: 1 Тб, Тип SIM-карт: eSIM"

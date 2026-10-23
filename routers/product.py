@@ -1,5 +1,5 @@
 from uuid import UUID
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, status
 
 from db.postgres import get_connection
 from repositories.product import ProductRepository
@@ -15,7 +15,7 @@ async def get_product_service(session = Depends(get_connection)) -> ProductServi
     repo = ProductRepository(session)
     return ProductService(repo)
 
-@router.post("/products", response_model=ProductResponse)
+@router.post("/products", response_model=ProductResponse, status_code=status.HTTP_201_CREATED)
 async def create_product(
     product: ProductCreate, 
     product_service: ProductService = Depends(get_product_service)

@@ -1,5 +1,5 @@
 from uuid import UUID
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, status
 
 
 from db.postgres import get_connection 
@@ -14,7 +14,7 @@ async def get_user_service(session = Depends(get_connection)) -> UserService:
     repo = UserRepository(session)
     return UserService(repo)
 
-@router.post("/users", response_model=UserResponse)
+@router.post("/users", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 async def create_user(
     user: UserCreate, 
     user_service: UserService = Depends(get_user_service)

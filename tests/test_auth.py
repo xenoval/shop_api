@@ -4,7 +4,7 @@ async def test_register_user(client):
         "name": "User One",
         "password": "password123",
     })
-    assert response.status_code == 200
+    assert response.status_code == 201
     data = response.json()
     assert data["email"] == "u1@example.com"
     assert "hashed_password" not in data
