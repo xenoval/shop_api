@@ -4,7 +4,7 @@ async def test_register_user(client):
         "name": "User One",
         "password": "password123",
     })
-    assert response.status_code == 200
+    assert response.status_code == 201
     data = response.json()
     assert data["email"] == "u1@example.com"
     assert "hashed_password" not in data
@@ -39,6 +39,10 @@ async def test_login_wrong_password(client):
 
 async def test_me_without_token(client):
     response = await client.get("/auth/me")
+    assert response.status_code == 401
+
+async def test_me_with_invalid_token(client):
+    response = await client.get("/auth/me", headers={"Authorization":"Bearer abc"})
     assert response.status_code == 401
 
 

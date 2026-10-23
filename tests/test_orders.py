@@ -29,7 +29,7 @@ async def test_create_order(client):
         ],
     })
 
-    assert response.status_code == 200
+    assert response.status_code == 201
     data = response.json()
     assert "order_id" in data
     assert data["total"] == 200.0

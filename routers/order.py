@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, status
 from db.postgres import get_connection
 
 from repositories.order import OrderRepository
@@ -13,7 +13,7 @@ async def get_order_service(session = Depends(get_connection)) -> OrderService:
     product_repo = ProductRepository(session)
     return OrderService(order_repo=order_repo, product_repo=product_repo)
 
-@router.post("/orders", response_model=OrdersResponse)
+@router.post("/orders", response_model=OrdersResponse, status_code=status.HTTP_201_CREATED)
 async def create_order(
     orders: OrdersCreate, 
     order_service: OrderService = Depends(get_order_service)
