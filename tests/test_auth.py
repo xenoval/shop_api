@@ -41,6 +41,10 @@ async def test_me_without_token(client):
     response = await client.get("/auth/me")
     assert response.status_code == 401
 
+async def test_me_with_invalid_token(client):
+    response = await client.get("/auth/me", headers={"Authorization":"Bearer abc"})
+    assert response.status_code == 401
+
 
 async def test_me_with_token(client):
     await client.post("/users", json={

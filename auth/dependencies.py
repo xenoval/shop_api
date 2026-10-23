@@ -1,5 +1,5 @@
 from uuid import UUID
-from jose import jwt
+from jose import jwt, JWTError
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -27,7 +27,7 @@ async def get_current_user(
         user_id = payload.get("sub")
         if user_id is None:
             raise credentials_exc
-    except jwt.PyJWTError:
+    except jwt.JWTError:
         raise credentials_exc
 
     repo = UserRepository(session)
