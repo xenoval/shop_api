@@ -27,6 +27,12 @@ class ProductRepository:
         result = await self.session.execute(query)
         return result.scalar_one_or_none()
 
+    async def get_by_ids(self, product_ids: list[UUID]) -> list[ProductModel]:
+        """Ищет продукты в БД по списку UUID."""
+        query = select(ProductModel).where(ProductModel.id.in_(product_ids))
+        result = await self.session.execute(query)
+        return list(result.scalars().all())
+    
     async def get_paged_products(self, limit: int, offset: int) -> tuple[list[ProductModel], int]:
         """Возвращает список продуктов для текущей страницы и общее количество записей."""
         total_query = select(func.count()).select_from(ProductModel)

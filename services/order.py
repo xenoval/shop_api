@@ -13,9 +13,14 @@ class OrderService:
         total = 0
         products_data = []
 
+        product_ids = [item.product_id for item in orders_data.items]
+        products = await self.product_repo.get_by_ids(product_ids)
+
+        products_by_id = {p.id: p for p in products}
+
         # Проверяем существование товаров и их цены
         for item in orders_data.items:
-            product = await self.product_repo.get_by_id(item.product_id)
+            product = products_by_id.get(item.product_id)
 
             if product is None:
                 raise HTTPException(
